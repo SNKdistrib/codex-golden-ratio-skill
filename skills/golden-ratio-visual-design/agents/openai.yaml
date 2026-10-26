@@ -1,0 +1,6 @@
+interface:
+  display_name: "Golden Ratio — Measured Layouts"
+  short_description: "Golden-ratio layouts with measured validation"
+  default_prompt: "Use $golden-ratio-visual-design to compose this visual with comfortable margins and verify the rendered geometry."
+policy:
+  allow_implicit_invocation: true
