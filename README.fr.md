@@ -21,7 +21,17 @@ locale ne prouve ni la conformité de toute l'image ni sa beauté.
 Les boutons ne doivent pas être grossis artificiellement pour fabriquer φ.
 L'ergonomie, la lisibilité et les demandes explicites restent prioritaires.
 
-### Version 0.1.1 : centrage du glyphe visible
+### Version 0.1.2 : logo composé et export bloquant
+
+Le profil `logo-lockup` contrôle ensemble le symbole, le nom et la signature :
+alignements centre/bas et centre/gauche explicites, largeur plafonnée par le slogan
+si demandée, espacements, marges et centrage facultatif sur le canevas. Il refuse
+d'ignorer un élément observé supplémentaire. `export_verified.py` ne crée le
+fichier de livraison qu'après validation ; échec ou preuve manquante bloque cet
+export. Cette commande est une étape explicite, pas un hook global de génération.
+Voir les [instructions de logo et d'export](skills/golden-ratio-visual-design/references/verification.md#three-part-brand-lockups).
+
+### Ajout de la version 0.1.1 : centrage du glyphe visible
 
 Le vérificateur contrôle désormais le centre de l'encre du caractère sur **les deux
 axes**, à l'intérieur d'un badge. Une mesure manquante reste NON VÉRIFIÉE ; un écart

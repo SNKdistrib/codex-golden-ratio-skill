@@ -21,7 +21,17 @@ proof that an entire composition is golden, beautiful or accessible.
 - An optional browser DOM measurement helper.
 - Tests, mathematical notes and explicit validation limits.
 
-### New in 0.1.1: visible glyph centering
+### New in 0.1.2: complete lockups and an export gate
+
+The `logo-lockup` profile covers a mark, wordmark and tagline together: shared
+explicit center/bottom and center/left alignments, optional tagline width limit,
+spacing, safe margins and optional whole-canvas centering. An extra
+observed component cannot be silently ignored. `export_verified.py` creates the
+delivery file only after verification passes; failures and missing evidence block
+that export. This is an explicit pipeline step, not a global image-generation hook.
+See the [lockup and export instructions](skills/golden-ratio-visual-design/references/verification.md#three-part-brand-lockups).
+
+### Added in 0.1.1: visible glyph centering
 
 The verifier can now check a character's **visible ink center on both axes** inside
 a badge. Missing ink measurements are UNVERIFIED; an offset outside the declared
