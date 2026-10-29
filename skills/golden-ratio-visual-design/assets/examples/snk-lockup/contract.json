@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "profile": "logo-lockup",
+  "scope_note": "Visible three-part brand lockup: mark, wordmark and tagline",
+  "canvas": {
+    "width": 600,
+    "height": 200
+  },
+  "spacing_base": 5,
+  "tolerance_px": 1,
+  "rules": [
+    {
+      "id": "brand",
+      "type": "lockup",
+      "mark": "mark",
+      "wordmark": "wordmark",
+      "tagline": "tagline",
+      "horizontal_gap_exponent": 3,
+      "vertical_gap_exponent": 2,
+      "safe_margin": 21,
+      "center_on_canvas": true,
+      "row_alignment": "bottom",
+      "tagline_alignment": "left",
+      "upper_width": "at_most_tagline",
+      "mark_to_wordmark_exponent": 1,
+      "tolerance_pct": 2
+    }
+  ]
+}

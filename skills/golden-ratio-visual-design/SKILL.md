@@ -3,7 +3,7 @@ name: golden-ratio-visual-design
 description: "Create or revise visual layouts using measurable golden-ratio relationships, comfortable margins and balanced controls. Use for UI, images, documents, slides and other visual compositions. Calculate, implement, render and verify. Exclude plain text and nonvisual tasks."
 license: MIT
 metadata:
-  version: "0.1.1"
+  version: "0.1.2"
 ---
 
 # Golden Ratio Visual Design
@@ -109,6 +109,60 @@ take priority; apply a verified relationship inside its actual containing panel.
   or the meaning of connections.
 
 ## Required validation workflow
+
+These are required delivery steps whenever this skill is used, not optional
+suggestions: fix the requested relationships before rendering, measure the actual
+output, execute the checks, inspect it, and gate the final export. Do not present
+an unchecked candidate as validated. Missing observations are not a successful check.
+
+For a concrete alignment example, read
+[the accepted left/bottom brand reference](references/logo-lockup-example.md)
+when designing or repairing a brand lockup. Learn its constraint-first method;
+do not apply its coordinates or alignment choices to unrelated designs.
+
+### Complete brand lockups and a blocking export
+
+Inventory every visible component before rendering: mark, wordmark, tagline,
+badge and any extra decoration. Reuse official editable artwork or protected
+assets instead of repainting a brand during an alignment repair. Measure the
+rendered ink, not identical layout containers. A glyph check does not cover the
+alignment between entire groups.
+
+Translate the user's placement requirements into explicit constraints before
+rendering. Never substitute centering for a requested shared left edge or bottom
+edge. The golden ratio does not choose those alignments.
+
+For an isolated three-part brand use `profile: "logo-lockup"` and one `lockup` rule.
+Explicitly declare `row_alignment` (`center_y`/`bottom`), `tagline_alignment`
+(`center_x`/`left`) and `upper_width` (`free`/`at_most_tagline`). There are no silent
+centering defaults. The width limit allows no overshoot, including within the
+alignment tolerance. The rule also checks positive calculated gaps and safe margins.
+Set `center_on_canvas: true`
+for a centered standalone asset, not a deliberately left-anchored site header.
+Declare optional golden height relationships only if actually designed. Extra
+observed components cannot be silently ignored by this isolated profile; a more
+complex brand needs a composition contract that covers its actual inventory.
+
+Inspect transparency, color invariants and readable text separately. The geometry
+checker does not identify colors or perform OCR. A controlled layer composition
+can establish that no untracked background has been added.
+
+Render a candidate, then use the explicit delivery gate:
+
+```text
+python scripts/export_verified.py --spec contract.json --measurements observed.json --image candidate.png --out delivered.png
+```
+
+This command runs verification and creates the new delivery file only after PASS.
+FAIL and UNVERIFIED leave it unexported. Run it, check its exit code and inspect
+the delivered image; merely mentioning it is not validation. This is a pipeline
+gate, not an installed global hook that intercepts all Codex image generation.
+Never present it as an infallible guarantee of every future visual.
+
+When requested, supply a separate control-overlay image with object/letter ink
+boxes, chosen alignment axes and golden subdivisions. Also keep a clean image.
+Do not distort the original glyphs or claim that every letter is a golden rectangle.
+An overlay is a comparison aid, not proof of undeclared relationships.
 
 ### Glyphs inside badges and controls
 

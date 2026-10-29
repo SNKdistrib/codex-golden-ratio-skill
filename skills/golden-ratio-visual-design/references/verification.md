@@ -22,6 +22,7 @@ Each rule has a unique `id` and a `type`:
   `center_y`, `width` or `height`.
 - `glyph_center`: box IDs `glyph` and `container`. Checks visible ink center on
   both X and Y, plus containment within the container's bounding rectangle.
+- `lockup`: a complete three-part mark, wordmark and tagline arrangement; see below.
 - `ratio`: `a` and `b` are references such as `{"box":"panel","value":"width"}`.
   Length values are `width`, `height` or `font_size`. Expected ratio is
   `phi**exponent`, exponent 1 by default. Relative tolerance defaults to 1%,
@@ -40,6 +41,61 @@ Alignment, ratio, spacing and whitespace categories are required by the default
 requirements do not create a universal image-understanding tool. Do not invent
 invisible boxes to make an illustration pass. Do not alter a contract after failure
 to fit whatever the generator produced.
+
+## Three-part brand lockups
+
+Use `profile: "logo-lockup"`, an explicit `scope_note` and exactly one `lockup` rule:
+
+```json
+{
+  "id": "brand",
+  "type": "lockup",
+  "mark": "mark",
+  "wordmark": "wordmark",
+  "tagline": "tagline",
+  "horizontal_gap_exponent": 3,
+  "vertical_gap_exponent": 2,
+  "safe_margin": 21,
+  "row_alignment": "bottom",
+  "tagline_alignment": "left",
+  "upper_width": "at_most_tagline",
+  "center_on_canvas": true
+}
+```
+
+The three observed boxes must be distinct and have `bounds_kind: "visible_ink"`.
+The isolated profile does not accept extra observed components that its rule would
+ignore. Missing or non-ink observations remain UNVERIFIED.
+
+The required alignment choices are `row_alignment` (`center_y` or `bottom`),
+`tagline_alignment` (`center_x` or `left`) and `upper_width` (`free` or
+`at_most_tagline`). Missing choices are not silently replaced by centering.
+The width-limited mode rejects any upper-row extent outside the tagline's left/right
+edges; it does not use the alignment tolerance to permit overshoot.
+
+The rule automatically checks the chosen mark/wordmark vertical alignment and
+tagline alignment against the complete upper row, positive edge-to-edge gaps equal to
+`spacing_base * phi**exponent`, and the declared safe area. Optional canvas
+centering covers the whole three-part union. Optional
+`mark_to_wordmark_exponent` and `wordmark_to_tagline_exponent` check height ratios;
+do not declare them after the fact merely to fit a generated output.
+
+This does not recognize objects, verify spelling, assess optical balance or check
+colors and alpha automatically. Inspect those properties in the medium's workflow.
+More complex logos need their real components covered in a composition contract.
+
+## Block delivery on failed or missing checks
+
+```text
+python scripts/export_verified.py --spec contract.json --measurements observed.json --image candidate.png --out delivered.png
+```
+
+The export gate invokes verification itself. It refuses to replace an input or
+existing output. FAIL returns 1, UNVERIFIED or invalid input returns 2; neither
+creates the delivery file. Only PASS copies the exact image bytes bound to the
+observed measurements by SHA-256. The command is an explicit build/delivery step,
+not a system-wide interceptor for all image generators. Read its result and inspect
+the delivered PNG/JPEG. The existing verifier remains available for reports alone.
 
 ## Isolated glyph-centering repairs
 

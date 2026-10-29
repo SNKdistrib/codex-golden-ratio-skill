@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "kind": "observed",
+  "canvas": {
+    "width": 600,
+    "height": 200
+  },
+  "pixel_ratio": 1,
+  "evidence": {
+    "method": "manual",
+    "image_sha256": "a23dff2fdac6d901f04c6154c89d54d73b96dd7d66ad1b816ce23f8b7a0b2922",
+    "uncertainty_px": 0.5,
+    "note": "Pixel alpha>=128 on actual labeled source layers; final composite checked byte-for-byte, no OCR"
+  },
+  "boxes": {
+    "mark": {
+      "x": 67,
+      "y": 40,
+      "width": 96,
+      "height": 84,
+      "bounds_kind": "visible_ink"
+    },
+    "wordmark": {
+      "x": 184,
+      "y": 72,
+      "width": 349,
+      "height": 52,
+      "bounds_kind": "visible_ink"
+    },
+    "tagline": {
+      "x": 67,
+      "y": 137,
+      "width": 467,
+      "height": 23,
+      "bounds_kind": "visible_ink"
+    }
+  }
+}

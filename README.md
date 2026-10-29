@@ -13,6 +13,23 @@ a contract and binds them to a screenshot with SHA-256.
 **Work in progress. Contributions are welcome.** A passing local check is not
 proof that an entire composition is golden, beautiful or accessible.
 
+## Accepted reference example
+
+**Clean transparent PNG**
+
+![SNK Distrib reference with shared left/bottom edges](skills/golden-ratio-visual-design/assets/examples/snk-lockup/logo-transparent.png)
+
+**Control overlay** — chosen alignment axes, ink boxes and golden subdivisions
+
+![Measured geometry overlay](skills/golden-ratio-visual-design/assets/examples/snk-lockup/logo-audit.png)
+
+Mark/tagline left edge: **67 px**. Mark/name bottom: **124 px**.
+The upper row is **466 px**, within the **467 px** tagline.
+The named mark/name height ratio is **84/52 = 1.61538**, a **0.164%** difference
+from phi. The overlay is diagnostic; it does not claim every glyph is a golden rectangle.
+Both images are transparent; the dark lettering is intended for a light surface.
+See the [measured example, contract and limits](skills/golden-ratio-visual-design/references/logo-lockup-example.md).
+
 ## What is included
 
 - A Codex-compatible `SKILL.md` and automatic invocation metadata.
@@ -21,7 +38,17 @@ proof that an entire composition is golden, beautiful or accessible.
 - An optional browser DOM measurement helper.
 - Tests, mathematical notes and explicit validation limits.
 
-### New in 0.1.1: visible glyph centering
+### New in 0.1.2: complete lockups and an export gate
+
+The `logo-lockup` profile covers a mark, wordmark and tagline together: shared
+explicit center/bottom and center/left alignments, optional tagline width limit,
+spacing, safe margins and optional whole-canvas centering. An extra
+observed component cannot be silently ignored. `export_verified.py` creates the
+delivery file only after verification passes; failures and missing evidence block
+that export. This is an explicit pipeline step, not a global image-generation hook.
+See the [lockup and export instructions](skills/golden-ratio-visual-design/references/verification.md#three-part-brand-lockups).
+
+### Added in 0.1.1: visible glyph centering
 
 The verifier can now check a character's **visible ink center on both axes** inside
 a badge. Missing ink measurements are UNVERIFIED; an offset outside the declared

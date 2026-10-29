@@ -1,0 +1,123 @@
+{
+  "status": "PASS",
+  "status_label": "PASS_DECLARED_RULES_ONLY",
+  "global_composition_conformity": "NOT_ESTABLISHED",
+  "scope": "geometry_of_supplied_observed_boxes",
+  "validation_profile": "logo-lockup",
+  "scope_note": "Visible three-part brand lockup: mark, wordmark and tagline",
+  "automatic_ocr": false,
+  "aesthetic_judgment": false,
+  "evidence_method": "manual",
+  "image_sha256": "a23dff2fdac6d901f04c6154c89d54d73b96dd7d66ad1b816ce23f8b7a0b2922",
+  "image_size": [
+    600,
+    200
+  ],
+  "reference_canvas": [
+    600.0,
+    200.0
+  ],
+  "checks": [
+    {
+      "id": "evidence_hash",
+      "category": "evidence",
+      "status": "PASS",
+      "detail": "Image SHA-256 matches"
+    },
+    {
+      "id": "measurement_origin",
+      "category": "evidence",
+      "status": "PASS",
+      "detail": "Declared observation method: manual"
+    },
+    {
+      "id": "image_dimensions",
+      "category": "evidence",
+      "status": "PASS",
+      "detail": "Image and measurement viewport agree"
+    },
+    {
+      "id": "canvas_aspect",
+      "category": "frame",
+      "status": "PASS",
+      "detail": "Aspect error must not exceed 0.5%",
+      "error_pct": 0.0
+    },
+    {
+      "id": "brand:row",
+      "category": "alignment",
+      "status": "PASS",
+      "detail": "Explicit chosen row alignment: bottom",
+      "delta_y": 0.0,
+      "tolerance_px": 1.0
+    },
+    {
+      "id": "brand:tagline",
+      "category": "alignment",
+      "status": "PASS",
+      "detail": "Explicit chosen tagline alignment: left",
+      "delta_x": 0.0,
+      "tolerance_px": 1.0
+    },
+    {
+      "id": "brand:width_limit",
+      "category": "frame",
+      "status": "PASS",
+      "detail": "Upper row must not exceed tagline width, without overshoot tolerance",
+      "upper_left": 67.0,
+      "upper_right": 533.0,
+      "tagline_left": 67.0,
+      "tagline_right": 534.0
+    },
+    {
+      "id": "brand:horizontal_gap",
+      "category": "spacing",
+      "status": "PASS",
+      "detail": "Positive edge-to-edge spacing",
+      "actual": 21.0,
+      "expected": 21.18033988749895,
+      "tolerance_px": 1.0
+    },
+    {
+      "id": "brand:vertical_gap",
+      "category": "spacing",
+      "status": "PASS",
+      "detail": "Positive edge-to-edge spacing",
+      "actual": 13.0,
+      "expected": 13.090169943749475,
+      "tolerance_px": 1.0
+    },
+    {
+      "id": "brand:safe_area",
+      "category": "frame",
+      "status": "PASS",
+      "detail": "All named roles stay inside the declared safe area",
+      "safe_margin": 21.0
+    },
+    {
+      "id": "brand:canvas_center",
+      "category": "placement",
+      "status": "PASS",
+      "detail": "Whole observed lockup centered on canvas",
+      "delta_x": 0.5,
+      "delta_y": 0.0,
+      "tolerance_px": 1.0
+    },
+    {
+      "id": "brand:mark_to_wordmark_exponent",
+      "category": "ratio",
+      "status": "PASS",
+      "detail": "Compare measured lengths, excluding gaps",
+      "actual": 1.6153846153846154,
+      "expected": 1.618033988749895,
+      "error_pct": 0.16374027886314116,
+      "tolerance_pct": 2.0
+    }
+  ],
+  "counts": {
+    "PASS": 12,
+    "FAIL": 0,
+    "UNVERIFIED": 0
+  },
+  "limits": "The image hash binds the evidence, but does not prove manually entered box accuracy. No OCR or automatic object recognition is performed."
+}

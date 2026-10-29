@@ -177,7 +177,7 @@ def verify(spec, measured, image):
     if not isinstance(rules, list):
         raise ValueError("rules must be a list")
     profile = spec.get("profile", "composition")
-    if profile not in {"composition", "glyph-centering"}:
+    if profile not in {"composition", "glyph-centering", "logo-lockup"}:
         raise ValueError("Unknown validation profile")
     required = REQUIRED
     if profile == "glyph-centering":
@@ -185,6 +185,12 @@ def verify(spec, measured, image):
             raise ValueError("glyph-centering requires an explicit scope_note")
         if not rules or any(r.get("type") != "glyph_center" for r in rules):
             raise ValueError("glyph-centering requires one or more glyph_center rules only")
+        required = {"alignment"}
+    if profile == "logo-lockup":
+        if not isinstance(spec.get("scope_note"), str) or not spec["scope_note"].strip():
+            raise ValueError("logo-lockup requires an explicit scope_note")
+        if len(rules) != 1 or rules[0].get("type") != "lockup":
+            raise ValueError("logo-lockup requires exactly one complete lockup rule")
         required = {"alignment"}
     ids = set()
     categories = set()
@@ -194,14 +200,72 @@ def verify(spec, measured, image):
             raise ValueError("Rule IDs must be nonempty and unique")
         ids.add(ident)
         kind = rule["type"]
-        category = {"align": "alignment", "glyph_center": "alignment", "ratio": "ratio", "gap": "spacing",
+        category = {"align": "alignment", "glyph_center": "alignment", "lockup": "alignment", "ratio": "ratio", "gap": "spacing",
                     "position": "placement", "void_ratio": "whitespace",
                     "inner_void_ratio": "whitespace"}.get(kind)
         if category is None:
             raise ValueError("Unknown rule type: " + str(kind))
         categories.add(category)
         try:
-            if kind == "glyph_center":
+            if kind == "lockup":
+                names = [rule[k] for k in ("mark", "wordmark", "tagline")]
+                if len(set(names)) != 3:
+                    raise ValueError("Lockup roles must refer to three distinct observed elements")
+                if profile == "logo-lockup" and set(measured["boxes"]) != set(names):
+                    add(ident + ":inventory", "evidence", "UNVERIFIED", "This isolated profile must cover exactly the mark, wordmark and tagline; additional observed elements need their own contract")
+                    continue
+                mark, word, tagline = [box(name) for name in names]
+                if any(measured["boxes"][name].get("bounds_kind") != "visible_ink" for name in names):
+                    add(ident, category, "UNVERIFIED", "Visible ink bounds required for mark, wordmark and tagline")
+                    continue
+                def center(b, axis):
+                    return b[axis] + b["width" if axis == "x" else "height"] / 2
+                top_left = min(mark["x"], word["x"])
+                top_right = max(mark["x"] + mark["width"], word["x"] + word["width"])
+                top_bottom = max(mark["y"] + mark["height"], word["y"] + word["height"])
+                row_alignment = rule["row_alignment"]
+                tagline_alignment = rule["tagline_alignment"]
+                width_rule = rule["upper_width"]
+                if row_alignment not in {"center_y", "bottom"} or tagline_alignment not in {"center_x", "left"} or width_rule not in {"free", "at_most_tagline"}:
+                    raise ValueError("Declare valid row_alignment, tagline_alignment and upper_width; do not assume centering")
+                delta_y = (center(mark, "y") - center(word, "y") if row_alignment == "center_y" else
+                           mark["y"] + mark["height"] - word["y"] - word["height"])
+                delta_x = (center(tagline, "x") - (top_left + top_right) / 2 if tagline_alignment == "center_x" else
+                           tagline["x"] - top_left)
+                add(ident + ":row", category, "PASS" if abs(delta_y) <= tolerance else "FAIL",
+                    "Explicit chosen row alignment: " + row_alignment, delta_y=delta_y, tolerance_px=tolerance)
+                add(ident + ":tagline", category, "PASS" if abs(delta_x) <= tolerance else "FAIL",
+                    "Explicit chosen tagline alignment: " + tagline_alignment, delta_x=delta_x, tolerance_px=tolerance)
+                if width_rule == "at_most_tagline":
+                    fits = top_left >= tagline["x"] and top_right <= tagline["x"] + tagline["width"]
+                    add(ident + ":width_limit", "frame", "PASS" if fits else "FAIL",
+                        "Upper row must not exceed tagline width, without overshoot tolerance",
+                        upper_left=top_left, upper_right=top_right, tagline_left=tagline["x"], tagline_right=tagline["x"] + tagline["width"])
+                for suffix, actual, exponent in (
+                    ("horizontal_gap", word["x"] - mark["x"] - mark["width"], rule["horizontal_gap_exponent"]),
+                    ("vertical_gap", tagline["y"] - top_bottom, rule["vertical_gap_exponent"])):
+                    expected = base * target({"exponent": exponent})
+                    add(ident + ":" + suffix, "spacing", "PASS" if actual > 0 and abs(actual - expected) <= tolerance else "FAIL",
+                        "Positive edge-to-edge spacing", actual=actual, expected=expected, tolerance_px=tolerance)
+                margin = number(rule["safe_margin"], "lockup.safe_margin", 0)
+                safe = all(b["x"] >= margin - tolerance and b["y"] >= margin - tolerance and
+                           b["x"] + b["width"] <= width - margin + tolerance and
+                           b["y"] + b["height"] <= height - margin + tolerance for b in (mark, word, tagline))
+                add(ident + ":safe_area", "frame", "PASS" if safe else "FAIL", "All named roles stay inside the declared safe area", safe_margin=margin)
+                if rule.get("center_on_canvas") is True:
+                    left = min(b["x"] for b in (mark, word, tagline))
+                    right = max(b["x"] + b["width"] for b in (mark, word, tagline))
+                    top = min(b["y"] for b in (mark, word, tagline))
+                    bottom = max(b["y"] + b["height"] for b in (mark, word, tagline))
+                    dx, dy = (left + right - width) / 2, (top + bottom - height) / 2
+                    add(ident + ":canvas_center", "placement", "PASS" if max(abs(dx), abs(dy)) <= tolerance else "FAIL",
+                        "Whole observed lockup centered on canvas", delta_x=dx, delta_y=dy, tolerance_px=tolerance)
+                for key, a, b in (("mark_to_wordmark_exponent", mark["height"], word["height"]),
+                                   ("wordmark_to_tagline_exponent", word["height"], tagline["height"])):
+                    if key in rule:
+                        status, result = compare_ratio({"exponent": rule[key], "tolerance_pct": rule.get("tolerance_pct", 1)}, a, b)
+                        add(ident + ":" + key, "ratio", status, **result)
+            elif kind == "glyph_center":
                 glyph, container = box(rule["glyph"]), box(rule["container"])
                 raw_glyph = measured["boxes"][rule["glyph"]]
                 if raw_glyph.get("bounds_kind") != "visible_ink":
