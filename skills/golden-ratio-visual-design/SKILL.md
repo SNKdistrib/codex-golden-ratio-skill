@@ -2,6 +2,8 @@
 name: golden-ratio-visual-design
 description: "Create or revise visual layouts using measurable golden-ratio relationships, comfortable margins and balanced controls. Use for UI, images, documents, slides and other visual compositions. Calculate, implement, render and verify. Exclude plain text and nonvisual tasks."
 license: MIT
+metadata:
+  version: "0.1.1"
 ---
 
 # Golden Ratio Visual Design
@@ -18,6 +20,11 @@ Do not invoke merely to read a screenshot, operate an app or answer in plain tex
 Preserve the user's format, content, assets, language, accessibility requirements
 and established design system. Explain genuine exceptions; do not silently drop
 the constraint or sacrifice usability to satisfy a number.
+
+For a localized repair, change only the requested property. Preserve the original
+palette, shapes, framing and alpha transparency. A centering request is not
+permission to recolor a logo or add a background. Prefer its editable vector or
+code source when available; reject generated variants that alter these invariants.
 
 ## Mathematical basis
 
@@ -102,6 +109,23 @@ take priority; apply a verified relationship inside its actual containing panel.
   or the meaning of connections.
 
 ## Required validation workflow
+
+### Glyphs inside badges and controls
+
+The golden ratio does not center a character. Check the visible glyph's center
+against its container on **both axes**. `text-anchor`, baseline settings, flex/grid
+and a text line box do not prove that visible ink is centered. Obtain ink bounds
+from the actual rendered pixels or vector outline. A DOM text Range alone is not
+ink geometry. Name any intentional optical offset rather than calling it centered.
+
+For an isolated repair, use the checker's `glyph-centering` profile and a
+`glyph_center` rule. Define its scope and tolerance before measuring. A missing
+glyph or non-ink box is UNVERIFIED; an offset outside tolerance is FAIL. Neither
+can be reported as successful delivery. Inspect the final render at its intended
+display sizes. Reject or mark any export whose glyph cannot be verified.
+
+A composition PASS without a declared glyph rule does not validate badge contents.
+This remains a local check, not a guarantee of global conformity or optical beauty.
 
 Read [verification instructions](references/verification.md). Define a geometry
 contract **before** generation. Then obtain observed measurements from the final

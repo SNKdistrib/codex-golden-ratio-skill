@@ -21,6 +21,15 @@ locale ne prouve ni la conformité de toute l'image ni sa beauté.
 Les boutons ne doivent pas être grossis artificiellement pour fabriquer φ.
 L'ergonomie, la lisibilité et les demandes explicites restent prioritaires.
 
+### Version 0.1.1 : centrage du glyphe visible
+
+Le vérificateur contrôle désormais le centre de l'encre du caractère sur **les deux
+axes**, à l'intérieur d'un badge. Une mesure manquante reste NON VÉRIFIÉE ; un écart
+hors tolérance échoue. Le profil ciblé `glyph-centering` ne prétend pas valider
+toute la composition. Un code de sortie non nul doit bloquer la livraison.
+Une retouche conserve explicitement les couleurs et la transparence d'origine.
+Voir le [contrat de centrage](skills/golden-ratio-visual-design/references/verification.md#isolated-glyph-centering-repairs).
+
 ## Installation
 
 Télécharger `golden-ratio-visual-design.zip` depuis la

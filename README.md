@@ -21,6 +21,15 @@ proof that an entire composition is golden, beautiful or accessible.
 - An optional browser DOM measurement helper.
 - Tests, mathematical notes and explicit validation limits.
 
+### New in 0.1.1: visible glyph centering
+
+The verifier can now check a character's **visible ink center on both axes** inside
+a badge. Missing ink measurements are UNVERIFIED; an offset outside the declared
+tolerance fails. An isolated `glyph-centering` profile keeps this repair distinct
+from a full composition audit. The CLI's nonzero exit code must block delivery.
+The skill also explicitly preserves the original palette and transparency during
+localized repairs. See the [centering contract](skills/golden-ratio-visual-design/references/verification.md#isolated-glyph-centering-repairs).
+
 Golden-ratio layout does not mean making every button a golden rectangle.
 Usability, readable text and explicit user requirements remain essential.
 
