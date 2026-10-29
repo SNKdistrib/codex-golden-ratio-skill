@@ -176,6 +176,16 @@ def verify(spec, measured, image):
     rules = spec.get("rules", [])
     if not isinstance(rules, list):
         raise ValueError("rules must be a list")
+    profile = spec.get("profile", "composition")
+    if profile not in {"composition", "glyph-centering"}:
+        raise ValueError("Unknown validation profile")
+    required = REQUIRED
+    if profile == "glyph-centering":
+        if not isinstance(spec.get("scope_note"), str) or not spec["scope_note"].strip():
+            raise ValueError("glyph-centering requires an explicit scope_note")
+        if not rules or any(r.get("type") != "glyph_center" for r in rules):
+            raise ValueError("glyph-centering requires one or more glyph_center rules only")
+        required = {"alignment"}
     ids = set()
     categories = set()
     for rule in rules:
@@ -184,14 +194,28 @@ def verify(spec, measured, image):
             raise ValueError("Rule IDs must be nonempty and unique")
         ids.add(ident)
         kind = rule["type"]
-        category = {"align": "alignment", "ratio": "ratio", "gap": "spacing",
+        category = {"align": "alignment", "glyph_center": "alignment", "ratio": "ratio", "gap": "spacing",
                     "position": "placement", "void_ratio": "whitespace",
                     "inner_void_ratio": "whitespace"}.get(kind)
         if category is None:
             raise ValueError("Unknown rule type: " + str(kind))
         categories.add(category)
         try:
-            if kind == "align":
+            if kind == "glyph_center":
+                glyph, container = box(rule["glyph"]), box(rule["container"])
+                raw_glyph = measured["boxes"][rule["glyph"]]
+                if raw_glyph.get("bounds_kind") != "visible_ink":
+                    add(ident, category, "UNVERIFIED", "Visible ink bounds required; a font line box or DOM text Range is insufficient")
+                    continue
+                dx = glyph["x"] + glyph["width"] / 2 - container["x"] - container["width"] / 2
+                dy = glyph["y"] + glyph["height"] / 2 - container["y"] - container["height"] / 2
+                contained = all(glyph[a] >= container[a] - tolerance and
+                                glyph[a] + glyph[s] <= container[a] + container[s] + tolerance
+                                for a, s in (("x", "width"), ("y", "height")))
+                add(ident, category, "PASS" if max(abs(dx), abs(dy)) <= tolerance and contained else "FAIL",
+                    "Visible glyph bounding-box center on both axes; rectangular containment, not optical balance or circle-corner clearance",
+                    delta_x=dx, delta_y=dy, contained=contained, tolerance_px=tolerance)
+            elif kind == "align":
                 edge = rule["edge"]
                 if edge not in {"x", "y", "right", "bottom", "center_x", "center_y", "width", "height"}:
                     raise ValueError("Invalid alignment edge")
@@ -254,7 +278,7 @@ def verify(spec, measured, image):
                 add(ident, category, status, **result, empty_before=before, empty_after=after)
         except LookupError as error:
             add(ident, category, "UNVERIFIED", str(error))
-    for category in sorted(REQUIRED - categories):
+    for category in sorted(required - categories):
         add("coverage:" + category, category, "UNVERIFIED", "Required layout check category is missing")
     if not boxes:
         add("no_boxes", "evidence", "UNVERIFIED", "No observed boxes supplied")
@@ -262,7 +286,8 @@ def verify(spec, measured, image):
     status = "FAIL" if "FAIL" in statuses else "UNVERIFIED" if "UNVERIFIED" in statuses else "PASS"
     return {"status": status, "status_label": status + "_DECLARED_RULES_ONLY",
             "global_composition_conformity": "NOT_ESTABLISHED",
-            "scope": "geometry_of_supplied_observed_boxes",
+            "scope": "geometry_of_supplied_observed_boxes", "validation_profile": profile,
+            "scope_note": spec.get("scope_note"),
             "automatic_ocr": False, "aesthetic_judgment": False,
             "evidence_method": proof.get("method"), "image_sha256": digest,
             "image_size": [iw, ih], "reference_canvas": [width, height], "checks": checks,

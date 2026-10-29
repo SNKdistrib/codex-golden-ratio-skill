@@ -20,6 +20,8 @@ Each rule has a unique `id` and a `type`:
 
 - `align`: box IDs `a`, `b`, and `edge`: `x`, `y`, `right`, `bottom`, `center_x`,
   `center_y`, `width` or `height`.
+- `glyph_center`: box IDs `glyph` and `container`. Checks visible ink center on
+  both X and Y, plus containment within the container's bounding rectangle.
 - `ratio`: `a` and `b` are references such as `{"box":"panel","value":"width"}`.
   Length values are `width`, `height` or `font_size`. Expected ratio is
   `phi**exponent`, exponent 1 by default. Relative tolerance defaults to 1%,
@@ -33,10 +35,44 @@ Each rule has a unique `id` and a `type`:
   Include `group`, `axis`, `dominant`, and optionally `exponent`. Every member must
   remain inside the container; both empty regions must be positive.
 
-Alignment, ratio, spacing and whitespace categories are required. These UI-layout
+Alignment, ratio, spacing and whitespace categories are required by the default
+`composition` profile. These UI-layout
 requirements do not create a universal image-understanding tool. Do not invent
 invisible boxes to make an illustration pass. Do not alter a contract after failure
 to fit whatever the generator produced.
+
+## Isolated glyph-centering repairs
+
+For this narrow task only, specify `profile: "glyph-centering"`, an explicit
+nonempty `scope_note`, and one or more `glyph_center` rules. No other rule type is
+accepted in this profile. It does not pretend to check unrelated layout categories.
+
+```json
+{
+  "version": 1,
+  "profile": "glyph-centering",
+  "scope_note": "Only the currency glyph inside this badge",
+  "canvas": {"width": 512, "height": 512},
+  "spacing_base": 8,
+  "tolerance_px": 0.5,
+  "rules": [
+    {"id": "currency_center", "type": "glyph_center", "glyph": "currency", "container": "badge"}
+  ]
+}
+```
+
+In the observed measurements, the glyph box must include
+`"bounds_kind": "visible_ink"`. Measure actual pixels or the visible vector contour,
+not a font's line box, baseline or DOM Range. Without that declaration, the result
+is UNVERIFIED. Missing boxes or stale image evidence also prevent PASS. An offset
+outside tolerance on either axis, or a glyph outside the container's rectangle,
+fails. Exit codes remain 0 / 1 / 2; run the command as a blocking build or delivery
+step and check its exit code instead of merely writing a report.
+
+The report records `validation_profile` and `scope_note`. Global conformity remains
+NOT_ESTABLISHED. This check cannot authenticate supplied annotations, judge optical
+balance, measure clearance at circle corners or recognize a glyph automatically.
+For a full composition, keep the default profile and add relevant glyph rules.
 
 ## Measurements after rendering
 
