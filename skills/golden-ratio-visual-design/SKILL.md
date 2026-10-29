@@ -110,6 +110,16 @@ take priority; apply a verified relationship inside its actual containing panel.
 
 ## Required validation workflow
 
+These are required delivery steps whenever this skill is used, not optional
+suggestions: fix the requested relationships before rendering, measure the actual
+output, execute the checks, inspect it, and gate the final export. Do not present
+an unchecked candidate as validated. Missing observations are not a successful check.
+
+For a concrete alignment example, read
+[the accepted left/bottom brand reference](references/logo-lockup-example.md)
+when designing or repairing a brand lockup. Learn its constraint-first method;
+do not apply its coordinates or alignment choices to unrelated designs.
+
 ### Complete brand lockups and a blocking export
 
 Inventory every visible component before rendering: mark, wordmark, tagline,

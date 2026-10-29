@@ -13,6 +13,23 @@ a contract and binds them to a screenshot with SHA-256.
 **Work in progress. Contributions are welcome.** A passing local check is not
 proof that an entire composition is golden, beautiful or accessible.
 
+## Accepted reference example
+
+**Clean transparent PNG**
+
+![SNK Distrib reference with shared left/bottom edges](skills/golden-ratio-visual-design/assets/examples/snk-lockup/logo-transparent.png)
+
+**Control overlay** — chosen alignment axes, ink boxes and golden subdivisions
+
+![Measured geometry overlay](skills/golden-ratio-visual-design/assets/examples/snk-lockup/logo-audit.png)
+
+Mark/tagline left edge: **67 px**. Mark/name bottom: **124 px**.
+The upper row is **466 px**, within the **467 px** tagline.
+The named mark/name height ratio is **84/52 = 1.61538**, a **0.164%** difference
+from phi. The overlay is diagnostic; it does not claim every glyph is a golden rectangle.
+Both images are transparent; the dark lettering is intended for a light surface.
+See the [measured example, contract and limits](skills/golden-ratio-visual-design/references/logo-lockup-example.md).
+
 ## What is included
 
 - A Codex-compatible `SKILL.md` and automatic invocation metadata.

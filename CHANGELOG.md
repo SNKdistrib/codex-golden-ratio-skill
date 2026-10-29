@@ -9,6 +9,7 @@
 - Added `export_verified.py`: create a new delivery file only after verification passes.
 - Added regression tests that prove failed/unverified exports create no delivery artifact and existing files are preserved.
 - Clarified that colors, transparency and complex brand structures still need their own real checks; no global hook is installed.
+- Included the owner's accepted transparent SNK lockup and audit overlay as a documented reference, with observed geometry and regression checks.
 
 ## 0.1.1 — 2026-10-29
 

@@ -10,6 +10,23 @@ implémenter, rendre, mesurer puis inspecter le résultat.
 **Projet en développement. Les contributions sont bienvenues.** Une validation
 locale ne prouve ni la conformité de toute l'image ni sa beauté.
 
+## Exemple de référence retenu
+
+**PNG propre, fond transparent**
+
+![Logo SNK Distrib aligné à gauche et en bas](skills/golden-ratio-visual-design/assets/examples/snk-lockup/logo-transparent.png)
+
+**Filigrane de contrôle** — alignements, boîtes d'encre et subdivisions phi
+
+![Filigrane géométrique mesuré](skills/golden-ratio-visual-design/assets/examples/snk-lockup/logo-audit.png)
+
+Bord gauche symbole/slogan : **67 px**. Bas symbole/nom : **124 px**.
+Bloc supérieur : **466 px**, dans les **467 px** du slogan.
+Le rapport de hauteurs conçu est **84/52 = 1,61538**, soit **0,164 %** d'écart à phi.
+Le filigrane ne prétend pas que chaque lettre est un rectangle d'or.
+Les deux PNG sont transparents ; le lettrage sombre est prévu sur un support clair.
+Voir les [mesures, le contrat et les limites](skills/golden-ratio-visual-design/references/logo-lockup-example.md).
+
 ## Contenu
 
 - Instructions compatibles avec Codex et sélection automatique selon la demande.
