@@ -10,6 +10,23 @@ implémenter, rendre, mesurer puis inspecter le résultat.
 **Projet en développement. Les contributions sont bienvenues.** Une validation
 locale ne prouve ni la conformité de toute l'image ni sa beauté.
 
+
+### Nouveauté 0.2.0 : preuves pixel et géométrie 3D
+
+- Contrat scellé avant rendu et relation structurante à phi obligatoire.
+- Mesures d'encre extraites des calques PNG réellement rendus.
+- Contrôle de recomposition, transparence et intégrité du fichier livré.
+- Mesures des sommets 3D distinctes de leur projection ; silhouettes projetées
+  comparées aux calques objets.
+- Garde Codex optionnelle, limitée aux jobs enregistrés et soumise à la revue de
+  confiance normale. Sa présence ne prouve pas son activation dans l'hôte.
+- Tests avec modifications de vrais pixels et sommets, pas seulement des annotations.
+
+Le contrôle strict nécessite **Python 3 + Pillow** (`requirements.txt`). Les scripts
+historiques de calcul/annotations restent autonomes. Voir le
+[protocole strict et ses limites](skills/golden-ratio-visual-design/references/strict-workflow.md).
+
+
 ## Exemple de référence retenu
 
 **PNG propre, fond transparent**

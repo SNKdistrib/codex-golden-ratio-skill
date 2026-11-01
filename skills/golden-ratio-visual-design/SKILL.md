@@ -1,9 +1,9 @@
 ---
 name: golden-ratio-visual-design
-description: "Create or revise visual layouts using measurable golden-ratio relationships, comfortable margins and balanced controls. Use for UI, images, documents, slides and other visual compositions. Calculate, implement, render and verify. Exclude plain text and nonvisual tasks."
+description: "Create or revise visual layouts using measurable golden-ratio relationships, comfortable margins and balanced controls. Use for 2D/3D geometry, UI, images, documents, slides and visual compositions. Calculate, implement, render and verify. Exclude plain text and nonvisual tasks."
 license: MIT
 metadata:
-  version: "0.1.2"
+  version: "0.2.0"
 ---
 
 # Golden Ratio Visual Design
@@ -11,6 +11,49 @@ metadata:
 Use the golden ratio as a measurable composition constraint, not a decorative
 phrase or a guarantee of beauty. Combine this skill with the appropriate tools
 for the requested medium. Do not redesign unrelated existing work.
+
+## Mandatory 2D/3D design and strict delivery
+
+Apply geometric constraints from the start of design, not as an overlay added
+after generation. Record the structural relationship, inventory, alignment,
+spacing, preservation constraints and any camera in an observable contract.
+A new complete visual requires at least one direct structural phi ratio. A
+centering-only repair remains a scoped repair, not a claim of golden composition.
+Do not distort protected glyphs, logos, data or fixed formats to manufacture phi.
+
+For 3D, measure evaluated world-space vertices after transformations. Distinguish
+`world` relations from `projected` relations. Seal the camera before rendering.
+Perspective does not generally preserve length ratios; do not claim that one
+world ratio remains phi in every view. A single bitmap cannot prove 3D depth.
+
+Read [the strict workflow](references/strict-workflow.md) for the matching mode.
+For supported PNG/layer deliveries, this sequence supersedes the historical
+annotation-based export path below:
+
+1. Before rendering, run `scripts/golden_delivery.py begin --plan plan.json --job job.json`.
+2. Render a new PNG and full-canvas isolated object layers. Export actual evaluated
+   vertices/faces and camera for a 3D scene. Reuse original brand assets.
+3. Run `scripts/golden_delivery.py check --job job.json`. Pixel-derived ink boxes,
+   layer recomposition, background and declared geometry are checked. Scene mode
+   also compares each projected mesh silhouette to its actual raster layer.
+4. Correct the render on failure. Do not change the contract/tolerance to force a
+   pass. An intentional scope change requires an explicitly identified new job.
+5. Run `scripts/golden_delivery.py export --job job.json --out final.png`. It reruns
+   checks, refuses overwrite and emits `final.png.golden.json` bound to all evidence.
+6. Open the delivered result. Inspect content, readability and appearance separately.
+
+Missing dependencies/evidence block strict export. For unsupported media, use an
+explicit medium-native audit and report **NOT VERIFIED by the strict pipeline**.
+Do not invent layers or coordinates. A generative preview remains a draft until
+the required evidence exists. A local PASS never certifies every visual property.
+
+The optional `codex_guard.py` handler adds a prompt reminder, denies recognized
+direct imagegen calls without a prepared job, and revalidates registered delivery
+receipts at Stop. Install only on explicit request and use normal Codex hook trust
+review. Never bypass review or claim activation based on configuration alone.
+Unrecognized/opaque tool paths and already displayed media remain outside its
+complete control. Do not affect unrelated nonvisual work or loop indefinitely.
+This is a workflow constraint, not a change to model weights or internal reasoning.
 
 ## Scope and priorities
 

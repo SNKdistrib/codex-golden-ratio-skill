@@ -13,6 +13,23 @@ a contract and binds them to a screenshot with SHA-256.
 **Work in progress. Contributions are welcome.** A passing local check is not
 proof that an entire composition is golden, beautiful or accessible.
 
+
+### New in 0.2.0: strict raster evidence and 3D geometry
+
+- Seal the contract **before** rendering and require a structural phi relationship.
+- Derive ink bounds from actual PNG layers instead of trusting entered coordinates.
+- Verify layer recomposition, transparency and unchanged exported files.
+- Measure 3D world vertices separately from their camera projection; cross-check
+  projected silhouettes against rendered object layers.
+- Include an optional session-scoped Codex lifecycle guard. It needs normal hook
+  trust review; it is not a universal interceptor and does not prove host activation.
+- Tests mutate real pixels and mesh vertices, not just annotation JSON.
+
+Strict raster verification requires **Python 3 + Pillow** (see `requirements.txt`).
+Legacy calculator/annotation scripts remain standard-library-only. See the
+[strict workflow and exact limitations](skills/golden-ratio-visual-design/references/strict-workflow.md).
+
+
 ## Accepted reference example
 
 **Clean transparent PNG**
