@@ -1,0 +1,2 @@
+# Strict pixel verification only. Legacy geometry scripts remain stdlib-only.
+Pillow>=10,<14

@@ -140,6 +140,11 @@ def verify(spec, measured, image):
     uncertainty = number(proof.get("uncertainty_px", 0), "uncertainty_px", 0)
     if uncertainty > 2:
         add("measurement_precision", "evidence", "UNVERIFIED", "Measurement uncertainty exceeds 2 observed units")
+    # Legacy manual annotations are not sufficiently precise for a tighter
+    # alignment promise. Strict delivery instead measures raster pixels itself.
+    if uncertainty * 2 * max(sx, sy) > tolerance:
+        add("measurement_vs_tolerance", "evidence", "UNVERIFIED",
+            "Combined coordinate uncertainty exceeds the alignment tolerance")
 
     def box(name):
         if name not in boxes:

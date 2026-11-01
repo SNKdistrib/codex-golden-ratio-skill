@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0 — 2026-11-01
+
+- Add sealed pre-render jobs, raster-layer measurement and verified PNG receipts.
+- Add evaluated 3D vertex rules with explicit world/projected spaces and silhouette checks.
+- Require a structural phi ratio for strict full-creation delivery.
+- Reject excessive manual measurement uncertainty relative to alignment tolerance.
+- Add opt-in, trust-reviewed session hooks; document activation and coverage limits.
+- Add actual raster/mesh mutation and hook-handler tests. No universal aesthetic guarantee.
+
+
 ## 0.1.2 — 2026-10-29
 
 - Added the `logo-lockup` profile and automatic relationships for a mark, wordmark and tagline.
